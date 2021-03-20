@@ -1,0 +1,24 @@
+{
+  "navs": [
+    { "name": "Dashboard", "url": "/dashboard", "icon": "" },
+    {
+      "name": "Receipts",
+      "inner": true,
+      "innerNavs": [
+        { "name": "New", "url": "/receipt/new" },
+        { "name": "View All", "url": "/receipt/all" },
+        { "name": "Discard", "url": "/receipt/discard" }
+      ]
+    },
+    {
+      "name": "Settings",
+      "inner": true,
+      "innerNavs": [
+        { "name": "Setup", "url": "/settings/setup" },
+        { "name": "Users", "url": "/settings/users" },
+        { "name": "Signature", "url": "/settings/signature" }
+      ]
+    },
+    { "name": "Logout", "url": "/logout" }
+  ]
+}

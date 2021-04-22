@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+// const { userSchema } = require("./user");
 
 const receiptSchema = new mongoose.Schema({
   customerName: {
@@ -49,6 +50,11 @@ const receiptSchema = new mongoose.Schema({
       },
     },
   ],
+  issuer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   __v: { type: Number, select: false },
 });
 

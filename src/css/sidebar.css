@@ -124,47 +124,35 @@
   margin-right: 8px;
   margin-top: 8px;
   opacity: 0.6;
+  cursor: pointer;
 }
 
 .left-options li#Dashboard::before {
-  background-image: url("../img/Dashboard.a2171383.svg");
-  background-repeat: no-repeat;
-  background-size: 24px 24px;
-}
-
-.left-options li#Cost::before {
-  background-image: url("../img/Cost.b78f44b7.svg");
-  background-repeat: no-repeat;
-  background-size: 24px 24px;
-}
-
-.left-options li#Appliances::before {
-  background-image: url("../img/Appliances.ad37a0a9.svg");
-  background-repeat: no-repeat;
-  background-size: 24px 24px;
-}
-
-.left-options li#Usage-by-rooms::before {
-  background-image: url("../img/Usage_by_rooms.5a9ea417.svg");
-  background-repeat: no-repeat;
-  background-size: 24px 24px;
-}
-
-.left-options li#Emissions::before {
-  background-image: url("../img/Emissions.1f2febf2.svg");
+  background-image: url("../img/Chart.svg");
   background-repeat: no-repeat;
   background-size: 24px 24px;
 }
 
 .left-options li#Settings::before {
-  background-image: url("../img/Emissions.1f2febf2.svg");
+  background-image: url("../img/Setting.svg");
   background-repeat: no-repeat;
   background-size: 24px 24px;
 }
 
-.left-options li#Logout::before,
-.left-options li#Demos::before {
-  background-image: url("../img/Emissions.1f2febf2.svg");
+.left-options li#Receipts::before {
+  background-image: url("../img/Receipt.svg");
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+}
+/* p[id='para one'] */
+.left-options li[id="Change Password"]::before {
+  background-image: url("../img/Key.svg");
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+}
+
+.left-options li#Logout::before {
+  background-image: url("../img/Signout.svg");
   background-repeat: no-repeat;
   background-size: 24px 24px;
 }
@@ -180,7 +168,8 @@
     #172d5b,
     #191c51
   );
-  color: #fff;
+  color: #ffffffcf;
+  min-height: 100vh;
 }
 
 .buttonwrapper {

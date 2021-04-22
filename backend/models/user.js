@@ -24,6 +24,14 @@ const userSchema = new mongoose.Schema({
     trim: true,
     unique: true,
   },
+  username: {
+    type: String,
+    required: true,
+    minLength: 5,
+    maxLength: 255,
+    trim: true,
+    unique: true,
+  },
   password: {
     type: String,
     required: true,
@@ -40,10 +48,10 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.generateAuthToken = function () {
   return jwt.sign(
-    { _id: this.id, isAdmin: this.isAdmin, email: this.email },
+    { _id: this.id, isAdmin: this.isAdmin, email: this.email, username: this.username },
     process.env.JWT_SIGN,
     {
-      expiresIn: 60 * 30,
+      expiresIn: "2h",
     }
   );
 };
@@ -51,3 +59,4 @@ userSchema.methods.generateAuthToken = function () {
 const User = mongoose.model("User", userSchema);
 
 exports.User = User;
+exports.userSchema = userSchema;

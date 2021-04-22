@@ -1,5 +1,29 @@
-module.exports = (org, receipt) => {
+const { Organisation } = require("../models/organisation");
+
+const formatCurrency = require("../helpers/currencyFormatter");
+
+module.exports = async (org, receipt) => {
   const today = new Date();
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const purchaseDate = new Date(receipt.purchaseDate);
+  let imageURL = "data:image/png;charset=utf-8;base64,";
+
+  const [orgLogo] = await Organisation.find().select("logo");
+
+  imageURL += Buffer.from(orgLogo.logo).toString("base64");
 
   const items = receipt.items.reduce(
     (htmlStr, item, i) =>
@@ -8,9 +32,9 @@ module.exports = (org, receipt) => {
       <tr>
         <td scope="row" class="text-right">${i + 1}</td>
         <td>${item.name}</td>
-        <td class="text-right">${item.unitCost}</td>
         <td class="text-right">${item.quantity}</td>
-        <td class="text-right">${item.unitCost * item.quantity}</td>
+        <td class="text-right">${formatCurrency(item.unitCost)}</td>
+        <td class="text-right">${formatCurrency(item.unitCost * item.quantity)}</td>
       </tr>`,
     ""
   );
@@ -33,16 +57,19 @@ module.exports = (org, receipt) => {
         />
       </head>
       <style>
+        body{
+          -webkit-print-color-adjust: exact;
+        }
         .logo {
           width: 100%;
           height: 100%;
-          background: url("https://logodownload.org/wp-content/uploads/2014/04/bmw-logo-1.png");
+          background: url(${imageURL});
           background-size: contain;
           background-repeat: no-repeat;
         }
         .print__date {
           position: absolute;
-          top: 10px;
+          top: 25px;
           font-size: 14px;
         }
       </style>
@@ -50,9 +77,9 @@ module.exports = (org, receipt) => {
       <body style="font-family: -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Roboto,&quot;Helvetica Neue&quot;,Arial,&quot;Noto Sans&quot;,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Noto Color Emoji&quot;;">
         <div class="container p-4">
           <header>
-            <h2 class="text-center mb-5">PURCHASE RECEIPT</h2>
+            <h2 class="text-center mb-5 pt-5">PURCHASE RECEIPT</h2>
             <p class="print__date">Printed on ${today.getDate()}-${
-    today.getMonth() + 1
+    months[today.getMonth()]
   }-${today.getFullYear()}</p>
             <div class="row">
               <div class="col-md-2">
@@ -69,7 +96,9 @@ module.exports = (org, receipt) => {
               <div class="col-md-3 mt-auto">
                 <div class="my-0 row small">
                   <p class="col-md-4 m-0 text-right">DATE:</p>
-                  <p class="col-md-8 m-0">12-Mar-2021</p>
+                  <p class="col-md-8 m-0">${purchaseDate.getDate().toPrecision(2)}-${
+    months[purchaseDate.getMonth()]
+  }-${purchaseDate.getFullYear()}</p>
                 </div>
                 <div class="my-0 row small">
                   <p class="col-md-4 mt-1 text-right">NO:</p>
@@ -99,9 +128,9 @@ module.exports = (org, receipt) => {
                   <tr>
                     <th scope="col" class="text-right">S/N</th>
                     <th scope="col">Item Description</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Unit Price</th>
-                    <th scope="col">Items Price</th>
+                    <th scope="col" class="text-right">Quantity</th>
+                    <th scope="col" class="text-right">Unit Price (₦)</th>
+                    <th scope="col" class="text-right">Items Price (₦)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -112,7 +141,10 @@ module.exports = (org, receipt) => {
                     <td colspan="4" class="text-right font-weight-bold" style="border: 0">
                       Total
                     </td>
-                    <td colspan="4" class="text-right">${totalAmount}</td>
+                    <td colspan="4" class="text-right">${formatCurrency(
+                      totalAmount,
+                      true
+                    )}</td>
                   </tr>
                 </tfoot>
               </table>

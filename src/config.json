@@ -1,24 +1,37 @@
 {
   "navs": [
-    { "name": "Dashboard", "url": "/dashboard", "icon": "" },
+    {
+      "name": "Dashboard",
+      "url": "/dashboard",
+      "inner": false
+    },
     {
       "name": "Receipts",
       "inner": true,
       "innerNavs": [
         { "name": "New", "url": "/receipt/new" },
         { "name": "View All", "url": "/receipt/all" },
-        { "name": "Discard", "url": "/receipt/discard" }
+        { "name": "Discarded", "url": "/receipt/discarded", "admin": true }
       ]
     },
     {
       "name": "Settings",
       "inner": true,
+      "admin": true,
       "innerNavs": [
-        { "name": "Setup", "url": "/settings/setup" },
+        { "name": "Company", "url": "/settings/company" },
         { "name": "Users", "url": "/settings/users" },
-        { "name": "Signature", "url": "/settings/signature" }
+        { "name": "Change Logo", "url": "/settings/logo" }
       ]
     },
-    { "name": "Logout", "url": "/logout" }
-  ]
+    {
+      "name": "Change Password",
+      "url": "/changepassword",
+      "inner": false
+    },
+    { "name": "Logout", "url": "/logout", "inner": false }
+  ],
+  "jwtTokenKey": "jwtToken",
+  "apiUrl": "http://localhost:7000/api",
+  "appName": "Receipta"
 }

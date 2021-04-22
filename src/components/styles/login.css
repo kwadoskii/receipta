@@ -5,6 +5,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100vh;
+  flex: 1;
 }
 
 .error {
@@ -36,11 +38,6 @@
   color: #219653;
 }
 
-label {
-  color: #828282;
-  font-size: 16px;
-}
-
 .minput {
   background-color: #f2f2f2;
   border: none;
@@ -65,10 +62,10 @@ label {
   box-shadow: 0 0 0 2px #2f80ed;
 }
 
-::placeholder {
+/* ::placeholder {
   color: #828282;
   opacity: 1;
-}
+} */
 
 .submit {
   display: inline-block;

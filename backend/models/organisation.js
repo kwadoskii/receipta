@@ -40,7 +40,7 @@ const organisationSchema = new mongoose.Schema({
     maxLength: 7,
   },
   logo: {
-    type: String,
+    type: Buffer,
   },
   __v: { type: Number, select: false },
 });

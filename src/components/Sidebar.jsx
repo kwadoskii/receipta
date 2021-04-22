@@ -3,15 +3,14 @@ import { Link, useLocation } from "react-router-dom";
 
 import "../css/sidebar.css";
 
-export default function Sidebar({ header, subHeader, navs }) {
+export default function Sidebar({ header, subHeader, navs, user }) {
   const location = useLocation().pathname;
 
   const [activeLink, setActiveLink] = useState();
   const [visible, setVisible] = useState("");
 
-  const setActive = (e, name) => {
+  const setActive = (e) => {
     e.preventDefault();
-    // setActiveLink(name);
   };
 
   const toggleVisibility = (name) => {
@@ -66,44 +65,70 @@ export default function Sidebar({ header, subHeader, navs }) {
       </div>
       <nav className="collapse nav-links" id="nav-links">
         <ul className="left-options">
-          {navs.map((nav, i) =>
-            !nav.inner ? (
-              <li
-                key={i}
-                className={"left-option  " + (nav.url === location ? "active " : "")}
-                id={nav.name}
-                onClick={(e) => setActive(e, nav.name)}
-              >
-                <Link to={nav.url}>{nav.name}</Link>
-              </li>
-            ) : (
-              <li className="left-option" id={nav.name} key={i}>
-                <label
-                  onClick={() => toggleVisibility(nav.name)}
-                  className="dropdown-toggle"
-                >
-                  {nav.name}
-                </label>
-                <div className="clearSpace">
-                  <ul
-                    className={"inner-options " + (nav.name === visible ? "" : "hidden")}
+          {navs.map((nav, i) => {
+            if (!nav.inner) {
+              if (nav.admin && !user.isAdmin) {
+                return null;
+              } else
+                return (
+                  <li
+                    key={i}
+                    className={"left-option  " + (nav.url === location ? "active " : "")}
+                    id={nav.name}
+                    onClick={(e) => setActive(e, nav.name)}
                   >
-                    {nav.innerNavs.map((innerNav, i) => (
-                      <li
-                        key={i}
+                    <Link to={nav.url}>{nav.name}</Link>
+                  </li>
+                );
+            } else {
+              if (nav.admin && !user.isAdmin) {
+                return null;
+              } else
+                return (
+                  <li className="left-option" id={nav.name} key={i}>
+                    <label
+                      onClick={() => toggleVisibility(nav.name)}
+                      className="dropdown-toggle"
+                    >
+                      {nav.name}
+                    </label>
+                    <div className="clearSpace">
+                      <ul
                         className={
-                          "inner-option " + (innerNav.url === location ? "active " : "")
+                          "inner-options " + (nav.name === visible ? "" : "hidden")
                         }
-                        onClick={(e) => setActive(e, innerNav.name)}
                       >
-                        <Link to={innerNav.url}>{innerNav.name}</Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </li>
-            )
-          )}
+                        {nav.innerNavs.map((innerNav, i) =>
+                          innerNav.admin === undefined ? (
+                            <li
+                              key={i}
+                              className={
+                                "inner-option " +
+                                (innerNav.url === location ? "active " : "")
+                              }
+                              onClick={(e) => setActive(e, innerNav.name)}
+                            >
+                              <Link to={innerNav.url}>{innerNav.name}</Link>
+                            </li>
+                          ) : innerNav.admin && user.isAdmin === true ? (
+                            <li
+                              key={i}
+                              className={
+                                "inner-option " +
+                                (innerNav.url === location ? "active " : "")
+                              }
+                              onClick={(e) => setActive(e, innerNav.name)}
+                            >
+                              <Link to={innerNav.url}>{innerNav.name}</Link>
+                            </li>
+                          ) : null
+                        )}
+                      </ul>
+                    </div>
+                  </li>
+                );
+            }
+          })}
         </ul>
       </nav>
     </div>

@@ -15,7 +15,8 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log(`Connected to ${db}`));
+  .then(() => console.log(`Connected to ${db}`))
+  .catch((err) => console.log(err));
 
 app.use(cors());
 app.use(express.json());
@@ -28,9 +29,9 @@ const organisation = require("./controllers/organisations");
 const receipt = require("./controllers/receipts");
 
 // routes
-app.use("/users", user);
-app.use("/auth", auth);
-app.use("/organisations", organisation);
-app.use("/receipts", receipt);
+app.use("/api/users", user);
+app.use("/api/auth", auth);
+app.use("/api/organisations", organisation);
+app.use("/api/receipts", receipt);
 
 app.listen(port, () => console.log(`app running on port ${port}`));

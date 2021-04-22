@@ -1,6 +1,10 @@
 import React from "react";
 
+import setTitle from "../helpers/setTitle";
+
 export default function Dashboard() {
+  setTitle("Dashboard");
+
   return (
     <div id="content-body" className="col-12 col-md-9 col-xl-10 pl-4 pr-4 bd-content">
       <div className="row">

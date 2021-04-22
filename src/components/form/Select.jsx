@@ -3,13 +3,12 @@ import { useFormikContext } from "formik";
 
 import Error from "./Error";
 
-export default function Input({
-  classes = "",
+export default function Select({
+  classes,
   label,
   name,
-  type = "text",
+  options,
   placeholder,
-  required = false,
   size = "col-md-12",
 }) {
   const { handleBlur, handleChange, errors, touched, values } = useFormikContext();
@@ -19,16 +18,20 @@ export default function Input({
       <label htmlFor={name} className="form-label">
         {label}
       </label>
-      <input
-        className={"form-control " + classes}
+      <select
+        className={"custom-select " + classes}
+        name={name}
         onBlur={handleBlur(name)}
         onChange={handleChange(name)}
-        placeholder={placeholder}
-        required={required}
-        type={type}
-        id={name}
         value={values[name]}
-      />
+      >
+        <option value="">{placeholder}</option>
+        {options.map((option) => (
+          <option value={option.name} key={option.name}>
+            {option.value}
+          </option>
+        ))}
+      </select>
 
       <Error error={errors[name]} visible={touched[name]} />
     </div>

@@ -66,7 +66,6 @@ function App() {
                   <Route path="/dashboard" component={Dashboard} />
                   <Route path="/changepassword" component={ChangePassword} />
                   <Route path="/logout" component={Logout} />
-                  <Route component={Dashboard} />
                 </Auth>
               </Switch>
             </BrowserRouter>

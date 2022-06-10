@@ -28,7 +28,10 @@ router.post("/", async (req, res) => {
   await receipt.save();
 
   try {
-    const browser = await Pupperteer.launch();
+    const browser = await Pupperteer.launch({
+      headless: false,
+      args: ["--no-sandbox"],
+    });
     const page = await browser.newPage();
 
     await page.setContent(receiptTemplate(org, receipt), { waitUntil: "networkidle0" });
@@ -78,8 +81,7 @@ router.get("/pdf/:receiptNumber", async (req, res) => {
 router.delete("/:receiptNumber", async (req, res) => {
   let receipt = await Receipt.findOne({ receiptNumber: req.params.receiptNumber });
 
-  if (!receipt)
-    return res.status(404).send({ status: "error", message: "Receipt not found" });
+  if (!receipt) return res.status(404).send({ status: "error", message: "Receipt not found" });
 
   await Receipt.findByIdAndDelete(receipt._id);
 
